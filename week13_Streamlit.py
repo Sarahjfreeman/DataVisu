@@ -41,13 +41,13 @@ df_outpatient_2 = load_outpatient()
 
 
 
-hospitals_OR = df_hospital_2[df_hospital_2['state'] == 'OR']
+hospitals_CA = df_hospital_2[df_hospital_2['state'] == 'CA']
 
 
 
 #Bar Chart
-st.subheader('Patient Experience OR Statewide')
-bar1 = hospitals_OR['patient_experience_national_comparison'].value_counts().reset_index()
+st.subheader('Patient Experience CA Statewide')
+bar1 = hospitals_CA['patient_experience_national_comparison'].value_counts().reset_index()
 st.dataframe(bar1)
 
 st.markdown('On an average, the patient experience with in the state of Oregon is above the national average')
@@ -60,8 +60,8 @@ st.plotly_chart(fig)
 # --------------
 
 #Effectiveness of Care
-st.subheader(' Hospitals in Oregon- Effectiveness of Care')
-bar2 = hospitals_OR['effectiveness_of_care_national_comparison'].value_counts().reset_index()
+st.subheader(' Hospitals in California- Effectiveness of Care')
+bar2 = hospitals_CA['effectiveness_of_care_national_comparison'].value_counts().reset_index()
 fig2 = px.bar(bar2, x='index', y='effectiveness_of_care_national_comparison')
 st.plotly_chart(fig2)
 
@@ -70,19 +70,20 @@ st.plotly_chart(fig2)
 
 st.subheader('Map of Oregon Hospital Locations')
 
-hospitals_OR_gps = hospitals_OR['location'].str.strip('()').str.split(' ', expand=True).rename(columns={0: 'Point', 1:'lon', 2:'lat'}) 
-hospitals_OR_gps['lon'] = hospitals_OR_gps['lon'].str.strip('(')
-hospitals_OR_gps = hospitals_OR_gps.dropna()
-hospitals_OR_gps['lon'] = pd.to_numeric(hospitals_OR_gps['lon'])
-hospitals_OR_gps['lat'] = pd.to_numeric(hospitals_OR_gps['lat'])
+hospitals_CA_gps = hospitals_CA['location'].str.strip('()').str.split(' ', expand=True).rename(columns={0: 'Point', 1:'lon', 2:'lat'}) 
+hospitals_CA_gps['lon'] = hospitals_CA_gps['lon'].str.strip('(')
+hospitals_CA_gps = hospitals_CA_gps.dropna()
+hospitals_CA_gps['lon'] = pd.to_numeric(hospitals_CA_gps['lon'])
+hospitals_CA_gps['lat'] = pd.to_numeric(hospitals_CA_gps['lat'])
 
-st.map(hospitals_OR_gps)
+st.map(hospitals_CA_gps)
 
 
 
 # ---------------
 st.subheader(' Hospitals in Oregon- Safety of Care')
-bar3 = hospitals_OR['safety_of_care_national_comparison'].value_counts().reset_index()
+bar3 = hospitals_CA['safety_of_care_national_comparison'].value_counts().reset_index()
 fig3 = px.bar(bar3, x='index', y='safety_of_care_national_comparison')
 st.plotly_chart(fig2)
+
 
